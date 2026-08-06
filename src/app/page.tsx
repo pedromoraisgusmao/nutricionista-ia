@@ -10,7 +10,7 @@ export default function Home() {
           personalizado, com acompanhamento semanal da evolução.
         </p>
         <p className="text-sm text-zinc-500 dark:text-zinc-500">
-          Projeto em construção. teste 7
+          Projeto em construção - teste 1 
         </p>
       </main>
     </div>
