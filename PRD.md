@@ -163,6 +163,14 @@ Aplicada **antes** de qualquer geração de plano. Bloqueio significa: não gera
 | SEG-05 | Ritmo implicando perda maior que 1% do peso corporal por semana | Limitar automaticamente a 1% |
 | SEG-06 | Usuário informa condição de saúde relevante (diabetes, doença renal, doença cardíaca, transtorno alimentar) | Bloquear |
 
+**Precedência entre SEG-04 e SEG-05:** as duas regras apenas elevam a meta
+calórica bruta, e cada uma calcula seu alvo mínimo de forma independente do
+valor atual da meta — não há uma regra que dependa do resultado da outra.
+Por isso não existe ordem de aplicação: a meta final é
+`max(meta_bruta, alvo_SEG-05, piso_SEG-04)`. Se as duas dispararem ao mesmo
+tempo, as duas explicações são exibidas ao usuário na tela de resultados,
+mesmo que apenas uma delas tenha determinado o valor final.
+
 **Aviso legal obrigatório**, exibido no rodapé de todas as telas, na tela de resultados e no PDF exportado:
 
 > Esta ferramenta tem caráter educativo e informativo. Os valores apresentados são estimativas baseadas em fórmulas populacionais e não constituem prescrição dietética. A prescrição de dietas individualizadas é atividade privativa de nutricionista registrado no Conselho Federal de Nutricionistas. Consulte um profissional antes de iniciar qualquer plano alimentar.
