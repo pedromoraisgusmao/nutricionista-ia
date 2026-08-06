@@ -9,7 +9,8 @@
 
 ## 1. Visão geral
 
-Aplicação web que calcula as necessidades energéticas e nutricionais de uma pessoa a partir de seus dados corporais e nível de atividade física, gera um plano alimentar estruturado com apoio de IA, e acompanha a evolução do usuário semanalmente, ajustando o plano conforme os resultados reais.
+Aplicação web que calcula as necessidades energéticas e nutricionais de uma pessoa a partir de seus dados corporais e nível de atividade física, gera um plano alimentar es
+truturado com apoio de IA, e acompanha a evolução do usuário semanalmente, ajustando o plano conforme os resultados reais.
 
 **Problema que resolve:** acompanhamento nutricional individualizado é caro e pouco acessível. Calculadoras online entregam apenas um número solto, sem plano prático nem adaptação ao longo do tempo.
 
