@@ -39,14 +39,38 @@ Se a IA devolver um plano cujo total calórico se desviar mais de 5% da meta, o 
 - **Framework:** Next.js 15 ou superior (App Router) + TypeScript
 - **Estilo:** Tailwind CSS
 - **Banco de dados e autenticação:** Supabase (PostgreSQL + Supabase Auth)
-- **IA:** API Anthropic (Claude), chamada exclusivamente no servidor
+- **IA:** API do Gemini (Google AI Studio, camada gratuita), chamada
+  exclusivamente no servidor
 - **Gráficos:** Recharts
 - **PDF:** react-pdf ou Puppeteer
 - **Testes:** Vitest
 - **Hospedagem:** Vercel
 - **PWA:** manifest + service worker para instalação na tela inicial
 
-**Restrição de segurança:** a chave da API Anthropic vive apenas em variável de ambiente no servidor. Nunca é exposta ao navegador. Toda chamada à IA passa por uma API Route do Next.js.
+**Provedor de IA — Gemini em vez de Claude:** o projeto é peça de
+portfólio e precisa ter custo zero de operação. A camada gratuita do
+Google AI Studio (modelo Gemini Flash) atende essa restrição; a API da
+Anthropic, na data desta revisão, não oferece uma camada gratuita
+equivalente. Por isso a IA generativa desta versão é o Gemini, não o
+Claude — a arquitetura (seção 2) já isola o provedor atrás de uma
+interface própria, então trocar de provedor no futuro (inclusive para
+Claude, se o produto virar comercial) não deve exigir reescrita, só uma
+nova implementação dessa interface.
+
+**Risco de privacidade da camada gratuita:** a camada gratuita do Google
+AI Studio pode usar as entradas enviadas para treinar modelos (ao
+contrário da camada paga, que tem retenção de dados diferente). Por
+isso, nesta versão, o prompt enviado ao Gemini **não pode conter dados
+reais de saúde de terceiros** — só os números já calculados pelo motor
+(meta calórica, macros em gramas, número de refeições) e preferências
+não sensíveis (restrições, alergias declaradas, orçamento,
+disponibilidade para cozinhar). Se o produto migrar para camada paga ou
+outro provedor com retenção de dados adequada, essa restrição pode ser
+revista.
+
+**Restrição de segurança:** a chave da API do Gemini (`GEMINI_API_KEY`)
+vive apenas em variável de ambiente no servidor. Nunca é exposta ao
+navegador. Toda chamada à IA passa por uma API Route do Next.js.
 
 ---
 
@@ -178,7 +202,7 @@ mesmo que apenas uma delas tenha determinado o valor final.
 Aceite explícito dos termos no primeiro acesso, com registro em banco.
 
 ### RF-04 — Geração do plano alimentar
-Chamada à API do Claude a partir do servidor, recebendo em JSON estruturado.
+Chamada à API do Gemini a partir do servidor, recebendo em JSON estruturado.
 
 **O prompt deve conter:**
 - Meta calórica e macros em gramas, já calculados
@@ -314,3 +338,4 @@ Lista de compras, exportação em PDF, PWA, revisão visual e de acessibilidade.
 | Custo da API crescer com o uso | Limite de gerações por usuário; cache do plano vigente |
 | Escopo grande demais para o tempo disponível | Fases independentes, cada uma entregando algo apresentável |
 | Questionamento legal sobre prescrição | Posicionamento educativo, avisos em todas as telas, aceite registrado, bloqueios de segurança |
+| Checagem de restrições/alergias (RF-04) é por lista de termos, não por base de alimentos — não reconhece um alimento composto cujo termo não está na lista (ex.: uma marca regional de embutido) | Lista de termos documentada e revisável em `src/lib/ia/palavrasProibidas.ts`; comparação sem acento e sem caixa para pegar variações como "queijo minas" (sem_lactose) e "molho shoyu" (sem_glúten); na v2, substituir por banco TACO/TBCA |

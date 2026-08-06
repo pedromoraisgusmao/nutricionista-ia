@@ -3,3 +3,4 @@ export * from "./calculo";
 export * from "./seguranca";
 export * from "./formulario";
 export * from "./preferencias";
+export * from "./plano";
