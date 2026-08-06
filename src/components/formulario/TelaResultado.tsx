@@ -1,5 +1,7 @@
 import type { ClassificacaoIMC, DadosFormulario, FormulaTMB, Objetivo, Ritmo } from "@/types";
 import type { ResultadoCalculo } from "@/app/calculadora/calcularResultado";
+import { montarEntradaPromptPlano } from "@/app/calculadora/montarEntradaPromptPlano";
+import { SecaoPlanoAlimentar } from "@/components/plano/SecaoPlanoAlimentar";
 import { formatarComDuasCasasDecimais, formatarComUmaCasaDecimal } from "./formatarNumero";
 
 interface TelaResultadoProps {
@@ -153,6 +155,8 @@ export function TelaResultado({ dados, resultado, onEditar }: TelaResultadoProps
           <dd>{dados.ritmo ? ROTULO_RITMO[dados.ritmo] : "—"}</dd>
         </dl>
       </div>
+
+      <SecaoPlanoAlimentar entrada={montarEntradaPromptPlano(dados, resultado)} />
 
       <p className="text-sm text-zinc-600 dark:text-zinc-400">
         Esta ferramenta tem caráter educativo e informativo. Os valores
