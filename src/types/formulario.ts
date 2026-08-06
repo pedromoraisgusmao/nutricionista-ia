@@ -1,4 +1,4 @@
-import type { Sexo } from "./usuario";
+import type { Objetivo, Ritmo, Sexo } from "./usuario";
 
 export interface DadosFormulario {
   sexo?: Sexo;
@@ -11,4 +11,6 @@ export interface DadosFormulario {
   quadrilCm?: number;
   diasTreinoSemana?: number;
   duracaoSessaoMinutos?: number;
+  objetivo?: Objetivo;
+  ritmo?: Ritmo;
 }

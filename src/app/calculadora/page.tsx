@@ -9,6 +9,10 @@ import {
   EtapaDadosCorporais,
   dadosCorporaisValidos,
 } from "@/components/formulario/EtapaDadosCorporais";
+import {
+  EtapaObjetivo,
+  dadosObjetivoValidos,
+} from "@/components/formulario/EtapaObjetivo";
 import type { DadosFormulario } from "@/types";
 import { TOTAL_ETAPAS } from "./estadoCalculadora";
 import { useEstadoCalculadora } from "./useEstadoCalculadora";
@@ -33,7 +37,9 @@ export default function CalculadoraPage() {
       ? dadosCorporaisValidos(dados)
       : etapaIndex === 1
         ? dadosAtividadeValidos(dados)
-        : false;
+        : etapaIndex === 2
+          ? dadosObjetivoValidos(dados)
+          : false;
 
   return (
     <div className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-8">
@@ -50,7 +56,8 @@ export default function CalculadoraPage() {
       {etapaIndex === 1 && (
         <EtapaAtividadeFisica dados={dados} onChange={atualizarDados} />
       )}
-      {etapaIndex > 1 && (
+      {etapaIndex === 2 && <EtapaObjetivo dados={dados} onChange={atualizarDados} />}
+      {etapaIndex > 2 && (
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
           Esta etapa ainda está em construção.
         </p>
