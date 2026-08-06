@@ -4,6 +4,8 @@ import {
   validarCircunferenciaCintura,
   validarCircunferenciaPescoco,
   validarCircunferenciaQuadril,
+  validarDiasTreinoSemana,
+  validarDuracaoSessaoMinutos,
   validarIdade,
   validarPercentualGordura,
   validarPeso,
@@ -102,5 +104,45 @@ describe("validarCircunferenciaQuadril", () => {
   it("rejeita fora da faixa", () => {
     expect(validarCircunferenciaQuadril(39)).toMatch(/entre 40 e 200/);
     expect(validarCircunferenciaQuadril(201)).toMatch(/entre 40 e 200/);
+  });
+});
+
+describe("validarDiasTreinoSemana", () => {
+  it("aceita a faixa 0-7", () => {
+    expect(validarDiasTreinoSemana(0)).toBeUndefined();
+    expect(validarDiasTreinoSemana(7)).toBeUndefined();
+  });
+
+  it("rejeita fora da faixa", () => {
+    expect(validarDiasTreinoSemana(-1)).toMatch(/entre 0 e 7/);
+    expect(validarDiasTreinoSemana(8)).toMatch(/entre 0 e 7/);
+  });
+
+  it("rejeita valores não inteiros", () => {
+    expect(validarDiasTreinoSemana(3.5)).toMatch(/entre 0 e 7/);
+  });
+
+  it("rejeita valor vazio (NaN)", () => {
+    expect(validarDiasTreinoSemana(NaN)).toBe(
+      "Informe os dias de treino por semana.",
+    );
+  });
+});
+
+describe("validarDuracaoSessaoMinutos", () => {
+  it("aceita a faixa 0-300", () => {
+    expect(validarDuracaoSessaoMinutos(0)).toBeUndefined();
+    expect(validarDuracaoSessaoMinutos(300)).toBeUndefined();
+  });
+
+  it("rejeita fora da faixa", () => {
+    expect(validarDuracaoSessaoMinutos(-1)).toMatch(/entre 0 e 300/);
+    expect(validarDuracaoSessaoMinutos(301)).toMatch(/entre 0 e 300/);
+  });
+
+  it("rejeita valor vazio (NaN)", () => {
+    expect(validarDuracaoSessaoMinutos(NaN)).toBe(
+      "Informe a duração média da sessão.",
+    );
   });
 });

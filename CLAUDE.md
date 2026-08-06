@@ -42,6 +42,10 @@ e a IA recebe o resultado já pronto.
   são bloqueio de fluxo.
 - Sem comentários explicando o óbvio; só quando houver uma razão não óbvia
   (regra de negócio implícita, workaround).
+- **Estado de formulários multi-etapa:** os dados do formulário ficam em um
+  único objeto de estado, separado do controle de navegação (fase e etapa
+  atual) — ver `src/app/calculadora/estadoCalculadora.ts`. Isso permite que
+  ações como "editar" troquem apenas a fase, sem precisar repopular dados.
 
 ## Testes
 

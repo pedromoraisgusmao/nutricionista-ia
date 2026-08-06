@@ -53,3 +53,19 @@ export function validarCircunferenciaQuadril(quadrilCm: number): string | undefi
   }
   return undefined;
 }
+
+export function validarDiasTreinoSemana(dias: number): string | undefined {
+  if (Number.isNaN(dias)) return "Informe os dias de treino por semana.";
+  if (!Number.isInteger(dias) || dias < 0 || dias > 7) {
+    return "Dias de treino por semana deve ser um número inteiro entre 0 e 7.";
+  }
+  return undefined;
+}
+
+export function validarDuracaoSessaoMinutos(minutos: number): string | undefined {
+  if (Number.isNaN(minutos)) return "Informe a duração média da sessão.";
+  if (minutos < 0 || minutos > 300) {
+    return "Duração média da sessão deve estar entre 0 e 300 minutos.";
+  }
+  return undefined;
+}

@@ -9,4 +9,6 @@ export interface DadosFormulario {
   cinturaCm?: number;
   pescocoCm?: number;
   quadrilCm?: number;
+  diasTreinoSemana?: number;
+  duracaoSessaoMinutos?: number;
 }
