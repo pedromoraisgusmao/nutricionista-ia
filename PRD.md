@@ -60,9 +60,23 @@ Formulário em etapas, com barra de progresso.
 - Idade (anos)
 - Peso (kg)
 - Altura (cm)
-- Nível de atividade física
+- Dias de treino por semana (0 a 7)
+- Duração média da sessão de treino (minutos)
 - Objetivo (perder gordura / manter / ganhar massa)
 - Ritmo desejado (leve / moderado / agressivo)
+- Gestação ou amamentação (sim / não) — resposta explícita obrigatória, sem valor padrão assumido
+- Condição de saúde relevante: diabetes, doença renal, doença cardíaca ou transtorno alimentar (sim / não) — resposta explícita obrigatória, sem valor padrão assumido
+
+**Nível de atividade física é derivado, não escolhido pelo usuário:** uma
+função de mapeamento (dias de treino por semana × duração média da sessão)
+calcula automaticamente qual dos cinco níveis do RF-02 se aplica — tabela
+de conversão em RF-02, "Nível de atividade física (derivado)".
+Motivo da mudança: o usuário se autoavalia mal entre categorias vizinhas
+como "levemente ativo" e "moderadamente ativo"; dias e minutos são dados
+objetivos, a categoria é inferida pelo sistema, não escolhida em uma lista.
+
+A mesma dupla de campos (dias de treino, duração média da sessão) também é
+a origem de `horasTreinoDia`, usado no cálculo de hidratação (RF-02).
 
 **Opcionais:**
 - Percentual de gordura corporal
@@ -88,15 +102,27 @@ Funções puras, sem efeitos colaterais, cobertas por testes unitários.
 
 **Estimativa de percentual de gordura** (quando circunferências forem fornecidas, método da Marinha dos EUA), usada como entrada da Katch-McArdle.
 
+**Nível de atividade física (derivado):** calculado a partir dos minutos
+semanais de treino (dias por semana × duração média da sessão, RF-01) —
+não é escolhido pelo usuário.
+
+| Minutos semanais de treino | Nível |
+|---|---|
+| 0 | Sedentário |
+| 1 a 150 | Levemente ativo |
+| 151 a 300 | Moderadamente ativo |
+| 301 a 450 | Muito ativo |
+| Acima de 450 | Extremamente ativo |
+
 **Gasto Energético Total:** TMB × fator de atividade
 
 | Nível | Fator |
 |---|---|
 | Sedentário | 1,2 |
-| Levemente ativo (1-3 treinos/semana) | 1,375 |
-| Moderadamente ativo (3-5 treinos/semana) | 1,55 |
-| Muito ativo (6-7 treinos/semana) | 1,725 |
-| Extremamente ativo (atleta, trabalho físico) | 1,9 |
+| Levemente ativo | 1,375 |
+| Moderadamente ativo | 1,55 |
+| Muito ativo | 1,725 |
+| Extremamente ativo | 1,9 |
 
 **Meta calórica:**
 
@@ -108,12 +134,20 @@ Funções puras, sem efeitos colaterais, cobertas por testes unitários.
 
 Manutenção: meta = GET.
 
+**Conversão de déficit calórico em projeção de perda de peso:** 1 kg de
+gordura corporal ≈ 7.700 kcal (aproximação de Wishnofsky). Usada na regra
+SEG-05 (RF-03) como teto de segurança para limitar o ritmo a no máximo 1%
+do peso corporal por semana — não é uma previsão exata de perda.
+
 **Distribuição de macronutrientes:**
 - Proteína: 1,6 g/kg (manutenção) · 2,0 g/kg (perda de gordura) · 1,8 g/kg (ganho de massa)
 - Gordura: 25% das calorias totais, com piso de 0,8 g/kg
 - Carboidrato: calorias restantes ÷ 4
 
-**Hidratação:** 35 ml por kg de peso + 500 ml por hora de treino.
+**Hidratação:** 35 ml por kg de peso + 500 ml por hora de treino **no
+dia**. O cálculo recebe as horas de treino do dia específico, não uma
+média semanal — a interface (Fase 2) exibe os dois valores lado a lado:
+hidratação em dia de treino e hidratação em dia de descanso.
 
 **Indicadores adicionais:** IMC com classificação, faixa de peso saudável pela altura, e projeção de semanas até a meta.
 
