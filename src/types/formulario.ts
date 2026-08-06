@@ -1,4 +1,5 @@
 import type { Objetivo, Ritmo, Sexo } from "./usuario";
+import type { DisponibilidadeCozinhar, NivelOrcamento, RestricaoAlimentar } from "./preferencias";
 
 export interface DadosFormulario {
   sexo?: Sexo;
@@ -13,4 +14,13 @@ export interface DadosFormulario {
   duracaoSessaoMinutos?: number;
   objetivo?: Objetivo;
   ritmo?: Ritmo;
+  gestanteOuAmamentando?: boolean;
+  condicaoSaudeRelevante?: boolean;
+  refeicoesPorDia?: number;
+  restricoesAlimentares?: RestricaoAlimentar[];
+  alergias?: string;
+  alimentosPreferidos?: string;
+  alimentosRejeitados?: string;
+  orcamento?: NivelOrcamento;
+  disponibilidadeCozinhar?: DisponibilidadeCozinhar;
 }

@@ -13,6 +13,8 @@ import {
   EtapaObjetivo,
   dadosObjetivoValidos,
 } from "@/components/formulario/EtapaObjetivo";
+import { EtapaPreferencias } from "@/components/formulario/EtapaPreferencias";
+import { EtapaSaude, dadosSaudeValidos } from "@/components/formulario/EtapaSaude";
 import type { DadosFormulario } from "@/types";
 import { TOTAL_ETAPAS } from "./estadoCalculadora";
 import { useEstadoCalculadora } from "./useEstadoCalculadora";
@@ -32,6 +34,8 @@ export default function CalculadoraPage() {
   const atualizarDados = (novosDados: DadosFormulario) =>
     despachar({ tipo: "atualizar_dados", dados: novosDados });
 
+  const naUltimaEtapa = etapaIndex === TOTAL_ETAPAS - 1;
+
   const podeAvancar =
     etapaIndex === 0
       ? dadosCorporaisValidos(dados)
@@ -39,7 +43,9 @@ export default function CalculadoraPage() {
         ? dadosAtividadeValidos(dados)
         : etapaIndex === 2
           ? dadosObjetivoValidos(dados)
-          : false;
+          : etapaIndex === 3
+            ? dadosSaudeValidos(dados)
+            : true;
 
   return (
     <div className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6 px-6 py-8">
@@ -47,7 +53,7 @@ export default function CalculadoraPage() {
         etapaAtual={etapaIndex + 1}
         totalEtapas={TOTAL_ETAPAS}
         rotulo={ROTULOS_ETAPAS[etapaIndex]}
-        opcional={etapaIndex === TOTAL_ETAPAS - 1}
+        opcional={naUltimaEtapa}
       />
 
       {etapaIndex === 0 && (
@@ -57,10 +63,9 @@ export default function CalculadoraPage() {
         <EtapaAtividadeFisica dados={dados} onChange={atualizarDados} />
       )}
       {etapaIndex === 2 && <EtapaObjetivo dados={dados} onChange={atualizarDados} />}
-      {etapaIndex > 2 && (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          Esta etapa ainda está em construção.
-        </p>
+      {etapaIndex === 3 && <EtapaSaude dados={dados} onChange={atualizarDados} />}
+      {etapaIndex === 4 && (
+        <EtapaPreferencias dados={dados} onChange={atualizarDados} />
       )}
 
       <div className="flex justify-between">
@@ -78,7 +83,7 @@ export default function CalculadoraPage() {
           disabled={!podeAvancar}
           className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-40 dark:bg-zinc-50 dark:text-black"
         >
-          Avançar
+          {naUltimaEtapa ? "Calcular" : "Avançar"}
         </button>
       </div>
     </div>

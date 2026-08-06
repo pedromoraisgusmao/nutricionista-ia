@@ -9,6 +9,7 @@ import {
   validarIdade,
   validarPercentualGordura,
   validarPeso,
+  validarRefeicoesPorDia,
 } from "./formulario";
 
 describe("validarIdade", () => {
@@ -144,5 +145,21 @@ describe("validarDuracaoSessaoMinutos", () => {
     expect(validarDuracaoSessaoMinutos(NaN)).toBe(
       "Informe a duração média da sessão.",
     );
+  });
+});
+
+describe("validarRefeicoesPorDia", () => {
+  it("aceita a faixa 3-6", () => {
+    expect(validarRefeicoesPorDia(3)).toBeUndefined();
+    expect(validarRefeicoesPorDia(6)).toBeUndefined();
+  });
+
+  it("rejeita fora da faixa", () => {
+    expect(validarRefeicoesPorDia(2)).toMatch(/entre 3 e 6/);
+    expect(validarRefeicoesPorDia(7)).toMatch(/entre 3 e 6/);
+  });
+
+  it("rejeita valores não inteiros", () => {
+    expect(validarRefeicoesPorDia(4.5)).toMatch(/entre 3 e 6/);
   });
 });

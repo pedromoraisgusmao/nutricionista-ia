@@ -69,3 +69,11 @@ export function validarDuracaoSessaoMinutos(minutos: number): string | undefined
   }
   return undefined;
 }
+
+export function validarRefeicoesPorDia(refeicoes: number): string | undefined {
+  if (Number.isNaN(refeicoes)) return "Informe o número de refeições por dia.";
+  if (!Number.isInteger(refeicoes) || refeicoes < 3 || refeicoes > 6) {
+    return "Número de refeições por dia deve ser um número inteiro entre 3 e 6.";
+  }
+  return undefined;
+}
